@@ -1,55 +1,50 @@
 import React from 'react';
-import styled from 'styled-components';
-
-// importing components
-import { Head } from '@components/core';
-
-// importing libraries
-import fetchSampledata from '@lib/fetchSampleData';
-
-const Root = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-`;
+import { useSession, signIn, signOut } from 'next-auth/client';
+import NextImage from 'next/image';
 
 const Home: React.FC = () => {
+  const [session, loading] = useSession();
   // set data as a state with type Data(which is declaired in global.d.ts).
-  const [data, setData] = React.useState<Data>({ hello: '' });
-  const [loading, setLoading] = React.useState<boolean>(false);
-
-  const handleFetch = async () => {
-    try {
-      setLoading(true);
-      const data = await fetchSampledata();
-
-      setData(data as Data);
-    } catch (err) {
-      // error handling
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
-    <>
-      <Head>
-        <title>My Home Page</title>
-      </Head>
-      <Root>
-        hello world
-        <div className="w-10 h-10 bg-black mx-auto my-4" />
-        <button
-          className="bg-black text-white py-2 px-4 rounded-lg"
-          onClick={() => handleFetch()}
-          disabled={loading}
-        >
-          get data
-        </button>
-        <p className="text-lg">
-          {loading ? 'loading...' : JSON.stringify(data, null, 2)}
-        </p>
-      </Root>
-    </>
+    <div className="p-4 flex flex-col justify-center items-center mt-8">
+      {!session ? (
+        <>
+          <p className="text-xl font-semibold">GitHub Login Test Page</p>
+          <button
+            className="mt-4  rounded-md  px-4 py-2 bg-indigo-700 text-white hover:opacity-80"
+            onClick={() => signIn()}
+          >
+            Signin With Github
+          </button>
+        </>
+      ) : (
+        <div>
+          <p className="text-xl font-semibold text-center">User Info</p>
+          <div className="mt-12 flex items-center">
+            <img
+              src={session?.user?.image ?? ''}
+              className="w-20 h-20 text-center"
+            />
+            <div className="ml-8">
+              <p className="text-lg font-semibold">
+                username: {session?.user?.name}
+              </p>
+              <p className="text-lg font-semibold">
+                expire: {session?.expires?.split('T')[0]}
+              </p>
+            </div>
+          </div>
+          <div className="flex justify-center">
+            <button
+              className="mt-4 rounded-md px-4 py-2 bg-indigo-700 text-white hover:opacity-80"
+              onClick={() => signOut()}
+            >
+              signout
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

@@ -8,9 +8,11 @@
     "start": "next start"
   },
   "dependencies": {
+    "@types/next-auth": "^3.15.0",
     "bowser": "^2.11.0",
     "classnames": "^2.2.6",
     "next": "10.0.7",
+    "next-auth": "^3.26.1",
     "nprogress": "^0.2.0",
     "postcss-import": "^14.0.0",
     "react": "17.0.1",
