@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import withErrorHandler from '@utils/withErrorHandler';
+import { getProviders, getSession } from 'next-auth/client';
+import { AdapterInstance } from 'next-auth/adapters';
 
 const handler: (
   req: NextApiRequest,

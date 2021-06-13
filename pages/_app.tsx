@@ -6,6 +6,7 @@ import type { AppProps } from 'next/app';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 import { Head } from '@components/core';
+import { Provider } from 'next-auth/client';
 
 NProgress.configure({
   minimum: 0.3,
@@ -21,8 +22,10 @@ Router.events.on('routeChangeError', () => NProgress.done());
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <>
-      <Head />
-      <Component {...pageProps} />
+      <Provider session={pageProps.session}>
+        <Head />
+        <Component {...pageProps} />
+      </Provider>
     </>
   );
 };
