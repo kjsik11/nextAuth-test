@@ -40,7 +40,7 @@ const Home: React.FC = () => {
           <button onClick={() => signIn()}>signin</button>
           <button
             className="mt-4 focus:outline-none rounded-md w-40 justify-around px-4 py-2 transition-all transform shadow-md bg-black text-white hover:text-black hover:bg-white flex items-center gap-2"
-            // onClick={() => signIn('github')}
+            onClick={() => signIn('github')}
           >
             <Git className="w-5 h-5" />
             <p className="flex-1">Github</p>
