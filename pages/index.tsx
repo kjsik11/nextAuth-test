@@ -5,6 +5,7 @@ import {
   signOut,
   getCsrfToken,
   signin,
+  getSession,
 } from 'next-auth/client';
 import NextImage from 'next/image';
 import fetcher from '@lib/fetcher';
@@ -21,6 +22,14 @@ const Home: React.FC = () => {
     }
   }, []);
 
+  const handleGetSession = React.useCallback(async () => {
+    try {
+      fetcher('/api/kakao');
+    } catch (err) {
+      console.log(err.message);
+    }
+  }, []);
+
   const [session, loading] = useSession();
 
   // set data as a state with type Data(which is declaired in global.d.ts).
@@ -34,10 +43,25 @@ const Home: React.FC = () => {
       >
         fetch to server
       </button>
+      <button
+        className="my-4 rounded-md  px-4 py-2 bg-indigo-700 text-white hover:opacity-80"
+        onClick={() => {
+          handleGetSession();
+        }}
+      >
+        getSession Test
+      </button>
       {!session ? (
         <>
           <p className="text-xl font-semibold">Login Test Page</p>
           <button onClick={() => signIn()}>signin</button>
+          <button
+            className="mt-4 focus:outline-none rounded-md w-40 justify-around px-4 py-2 transition-all transform shadow-md bg-black text-white hover:text-black hover:bg-white flex items-center gap-2"
+            onClick={() => signIn()}
+          >
+            <Git className="w-5 h-5" />
+            <p className="flex-1">Sign In</p>
+          </button>
           <button
             className="mt-4 focus:outline-none rounded-md w-40 justify-around px-4 py-2 transition-all transform shadow-md bg-black text-white hover:text-black hover:bg-white flex items-center gap-2"
             onClick={() => signIn('github')}
@@ -63,7 +87,6 @@ const Home: React.FC = () => {
       ) : (
         <div>
           <p className="text-xl font-semibold text-center">User Info</p>
-          {JSON.stringify(session)}
           <div className="mt-12 flex items-center">
             <img
               src={session?.user?.image ?? ''}
