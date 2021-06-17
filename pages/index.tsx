@@ -7,6 +7,7 @@ import {
   signin,
   getSession,
 } from 'next-auth/client';
+import { useRouter } from 'next/router';
 import NextImage from 'next/image';
 import fetcher from '@lib/fetcher';
 import Git from '@components/icon/Git';
@@ -29,6 +30,8 @@ const Home: React.FC = () => {
       console.log(err.message);
     }
   }, []);
+
+  const router = useRouter();
 
   const [session, loading] = useSession();
 
@@ -83,6 +86,12 @@ const Home: React.FC = () => {
             <Kakao className="w-5 h-5" />
             <p className="flex-1">Kakao</p>
           </button>
+          <a
+            className="mt-4 focus:outline-none rounded-md w-40 justify-around  px-4 py-2 transition-all transform hover:shadow-md bg-white hover:text-black flex items-center gap-2"
+            href={`http://localhost:3000/test?clientId=${process.env.CLIENTID}&clientSecret=${process.env.CLIENTSECRET}&redirectUri=${process.env.REDIRECT_URI}`}
+          >
+            <p className="flex-1">ONDISPALY</p>
+          </a>
         </>
       ) : (
         <div>
